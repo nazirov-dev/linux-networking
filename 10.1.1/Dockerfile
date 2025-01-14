@@ -18,7 +18,7 @@ RUN useradd -m -s /bin/bash haady && \
 
 USER root
 WORKDIR /root
-RUN hostname server01 && \
+RUN echo "server01" > /etc/hostname && \
     for i in $(seq 1 19); do ip link add name br-$i type bridge; done && \
     ip addr add 172.16.50.1/24 dev br-5720f05dd68a && \
     ip link set br-5720f05dd68a up
