@@ -1,42 +1,36 @@
+# Use an official Ubuntu image
 FROM ubuntu:20.04
 
-# Set environment variables
+# Set environment variables to avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
-ENV HOSTNAME=server01
 
-# Update and install necessary packages
+# Update package list and install necessary packages
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    nano \
-    vim \
     iproute2 \
     net-tools \
-    apache2 \
+    iputils-ping \
     sudo \
+    bridge-utils \
+    vim \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Create user haady with the specified password
-RUN useradd -m -s /bin/bash haady && \
-    echo "haady:xavfsizlik" | chpasswd
+# Create the user "haad" with password "xavfsizlik"
+RUN useradd -m -s /bin/bash haad && \
+    echo "haad:xavfsizlik" | chpasswd
 
-# Set the container's hostname
-RUN echo "server01" > /etc/hostname && \
-    hostname -F /etc/hostname
+# Set the hostname directly in /etc/hostname
+RUN echo "server01" > /etc/hostname
 
-# Create 19 network interfaces
-RUN for i in $(seq 1 19); do ip link add name br-$i type bridge; done && \
+# Configure the hostname and network interface within the container
+RUN hostname "server01" && \
+    ip link add name br-5720f05dd68a type bridge && \
     ip addr add 172.16.50.1/24 dev br-5720f05dd68a && \
     ip link set br-5720f05dd68a up
 
-# Set the user to root temporarily to configure network interfaces
-USER root
-WORKDIR /root
+# Set up the working directory and switch to the "haad" user
+USER haad
+WORKDIR /home/haad
 
-# Switch to haady user for the default environment
-USER haady
-WORKDIR /home/haady
-
-# Set default command to bash
+# Default command to run in the container
 CMD ["/bin/bash"]
