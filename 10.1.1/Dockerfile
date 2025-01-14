@@ -1,4 +1,3 @@
-# Use an official Ubuntu image
 FROM ubuntu:20.04
 
 # Set environment variables to avoid interactive prompts during package installation
@@ -19,12 +18,12 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -s /bin/bash haad && \
     echo "haad:xavfsizlik" | chpasswd
 
-# Set the hostname directly in /etc/hostname
-RUN echo "server01" > /etc/hostname
+# Set the hostname by modifying /etc/hostname and /etc/hosts
+RUN echo "server01" > /etc/hostname && \
+    echo "127.0.0.1 server01" >> /etc/hosts
 
-# Configure the hostname and network interface within the container
-RUN hostname "server01" && \
-    ip link add name br-5720f05dd68a type bridge && \
+# Create network interface setup (simulate this since Docker doesn't allow bridge interface creation during build)
+RUN ip link add name br-5720f05dd68a type bridge && \
     ip addr add 172.16.50.1/24 dev br-5720f05dd68a && \
     ip link set br-5720f05dd68a up
 
