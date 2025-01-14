@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y \
 # Create the user "haady" with password "xavfsizlik"
 RUN useradd -m -s /bin/bash haady && \
     echo "haady:xavfsizlik" | chpasswd
+
+# Copy the change_hostname.sh script
 COPY change_hostname.sh /home/haady/
 RUN chmod +x /home/haady/change_hostname.sh && \
     echo "/home/haady/change_hostname.sh" >> /home/haady/.bashrc
