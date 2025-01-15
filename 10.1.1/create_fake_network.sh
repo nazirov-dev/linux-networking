@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Step 1: Change the hostname to 'server01'
-# echo "Changing hostname to 'server01'"
-# echo "server01" | sudo tee /etc/hostname
-# echo "127.0.0.1   server01" | sudo tee -a /etc/hosts
+echo "Changing hostname to 'server01'"
+echo "server01" | sudo tee /etc/hostname
+echo "127.0.0.1   server01" | sudo tee -a /etc/hosts
 
 # Step 2: Create 19 virtual interfaces with random names
 # 1. Create the first bridge interface br-5720f05dd68a
