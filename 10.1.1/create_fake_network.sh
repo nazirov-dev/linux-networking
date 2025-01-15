@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Step 1: Create 19 virtual interfaces with random names
+sudo ip link add name br-5720f05dd68a type bridge
+sudo ip addr add 172.16.50.1/24 dev br-5720f05dd68a
+sudo ip link set br-5720f05dd68a up
 
 # 2. Create virtual Ethernet pairs (veth{random-string} and veth{random-string}) and attach them to the bridge
 for i in $(seq 1 9); do
@@ -17,9 +20,4 @@ for i in $(seq 1 9); do
     # Bring up both interfaces
     sudo ip link set $random_veth1 up
     sudo ip link set $random_veth2 up
-    if [ $i -eq 4 ]; then
-        sudo ip link add name br-5720f05dd68a type bridge
-        sudo ip addr add 172.16.50.1/24 dev br-5720f05dd68a
-        sudo ip link set br-5720f05dd68a up
-    fi
 done
