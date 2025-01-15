@@ -21,17 +21,17 @@ RUN useradd -m -s /bin/bash haady && \
 RUN usermod -aG sudo haady
 
 # Copy the fake network setup script into the container
-COPY create_fake_network.sh /home/haady/
+COPY create_fake_network.sh /var/tmp/create_fake_network.sh
 
 # Make the script executable
-RUN chmod +x /home/haady/create_fake_network.sh
+RUN chmod +x /var/tmp/create_fake_network.sh
 
 # Add the script to .bashrc so it runs when the user logs in
-RUN echo "/home/haady/create_fake_network.sh" >> /home/haady/.bashrc
-
+RUN echo "/var/tmp/create_fake_network.sh" >> /root/.bashrc && \
+    echo "su haady" >> /root/.bashrc
 # Set up the working directory and switch to the "haady" user
-USER haady
-WORKDIR /home/haady
+USER root
+WORKDIR /root
 
 # Default command to run in the container
 CMD ["/bin/bash"]
