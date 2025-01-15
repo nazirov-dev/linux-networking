@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Change hostname
+# Change the hostname
 echo "Changing hostname to 'server01'"
-hostnamectl set-hostname server01
+echo "server01" > /etc/hostname
+echo "127.0.0.1   server01" >> /etc/hosts
 
 # Create a virtual bridge interface (br0)
 echo "Creating virtual bridge interface br0"

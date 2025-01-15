@@ -18,10 +18,14 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -s /bin/bash haady && \
     echo "haady:xavfsizlik" | chpasswd
 
-# Copy the change_hostname.sh script
-COPY change_hostname.sh /home/haady/
-RUN chmod +x /home/haady/change_hostname.sh && \
-    echo "/home/haady/change_hostname.sh" >> /home/haady/.bashrc
+# Copy the fake network setup script into the container
+COPY create_fake_network.sh /home/haady/
+
+# Make the script executable
+RUN chmod +x /home/haady/create_fake_network.sh
+
+# Add the script to .bashrc so it runs when the user logs in
+RUN echo "/home/haady/create_fake_network.sh" >> /home/haady/.bashrc
 
 # Set up the working directory and switch to the "haady" user
 USER haady
