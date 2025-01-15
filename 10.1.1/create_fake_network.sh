@@ -5,7 +5,7 @@ echo "Changing hostname to 'server01'"
 echo "server01" | sudo tee /etc/hostname
 echo "127.0.0.1   server01" | sudo tee -a /etc/hosts
 
-# Step 2: Create 19 virtual interfaces and assign IPs
+# Step 2: Create 17 virtual interfaces and assign IPs
 # 1. Create the first bridge interface br-5720f05dd68a
 echo "Creating virtual bridge interface br-5720f05dd68a"
 sudo ip link add name br-5720f05dd68a type bridge
@@ -13,7 +13,7 @@ sudo ip addr add 172.16.50.1/24 dev br-5720f05dd68a
 sudo ip link set br-5720f05dd68a up
 
 # 2. Create virtual Ethernet pairs (vethX and vethY) and attach them to the bridge
-for i in $(seq 1 19); do
+for i in $(seq 1 17); do
     # Create virtual Ethernet pair veth$i and veth$((i+1))
     echo "Creating virtual Ethernet pair veth$i and veth$((i+1))"
     sudo ip link add veth$i type veth peer name veth$((i+1))
