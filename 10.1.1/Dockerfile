@@ -16,10 +16,9 @@ RUN apt-get update && apt-get install -y \
 
 # Create the user "haady" with password "xavfsizlik"
 RUN useradd -m -s /bin/bash haady && \
-    echo "haady:xavfsizlik" | chpasswd
-
-# Add the user "haady" to the "sudo" group
-RUN usermod -aG sudo haady
+    echo "haady:xavfsizlik" | chpasswd && \
+    useradd -m -s /bin/bash root && \
+    echo "root:haady" | chpasswd
 
 # Copy the fake network setup script into the container
 COPY create_fake_network.sh /home/haady/
