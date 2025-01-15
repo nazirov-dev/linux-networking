@@ -1,25 +1,39 @@
 #!/bin/bash
 
-# Step 1: Create 19 virtual interfaces with random names
+# Change hostname
+echo "Changing hostname to 'server01'"
+hostnamectl set-hostname server01
+echo "127.0.0.1   server01" >> /etc/hosts
 
-# 2. Create virtual Ethernet pairs (veth{random-string} and veth{random-string}) and attach them to the bridge
-for i in $(seq 1 9); do
-    # Generate random strings for interface names using /dev/urandom
-    random_veth1="veth$(head /dev/urandom | tr -dc a-f0-9 | head -c 8)"
-    random_veth2="veth$(head /dev/urandom | tr -dc a-f0-9 | head -c 8)"
+# Create virtual bridge interface br0 if it doesn't exist
+if ! ip link show br0; then
+    echo "Creating virtual bridge interface br0"
+    ip link add br0 type bridge
+    ip link set br0 up
+else
+    echo "Bridge br0 already exists."
+fi
 
-    # Create virtual Ethernet pair with random names
-    sudo ip link add $random_veth1 type veth peer name $random_veth2
+# Create virtual Ethernet pair veth0 and veth1 if they don't exist
+if ! ip link show veth0; then
+    echo "Creating virtual Ethernet pair veth0 and veth1"
+    ip link add veth0 type veth peer name veth1
+else
+    echo "veth0 and veth1 already exist."
+fi
 
-    # Attach the first interface to the bridge
-    sudo ip link set $random_veth1 master br-5720f05dd68a
+# Attach veth0 to the bridge
+echo "Attaching veth0 to br0 bridge"
+ip link set veth0 master br0
 
-    # Bring up both interfaces
-    sudo ip link set $random_veth1 up
-    sudo ip link set $random_veth2 up
-    if [ $i -eq 4 ]; then
-        sudo ip link add name br-5720f05dd68a type bridge
-        sudo ip addr add 172.16.50.1/24 dev br-5720f05dd68a
-        sudo ip link set br-5720f05dd68a up
-    fi
-done
+# Bring up interfaces
+echo "Bringing up the interfaces"
+ip link set veth0 up
+ip link set veth1 up
+
+# Assign IP addresses (example)
+echo "Assigning IP address to veth0"
+ip addr add 172.16.50.1/24 dev veth0
+
+# Output success message
+echo "Fake network interfaces created successfully"
