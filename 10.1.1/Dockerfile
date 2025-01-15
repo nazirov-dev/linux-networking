@@ -27,9 +27,6 @@ COPY create_fake_network.sh /home/haady/
 # Make the script executable
 RUN chmod +x /home/haady/create_fake_network.sh
 
-# Run the script as root during the build process to set up the fake network
-RUN /home/haady/create_fake_network.sh
-
 # Ensure the script is also executed when "haady" logs in
 RUN echo "/home/haady/create_fake_network.sh" >> /home/haady/.bashrc
 
