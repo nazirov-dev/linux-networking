@@ -13,7 +13,7 @@ sudo ip addr add 172.16.50.1/24 dev br-5720f05dd68a
 sudo ip link set br-5720f05dd68a up
 
 # 2. Create virtual Ethernet pairs (veth{random-string} and veth{random-string}) and attach them to the bridge
-for i in $(seq 1 19); do
+for i in $(seq 1 16); do
     # Generate random strings for interface names using /dev/urandom
     random_veth1="veth$(head /dev/urandom | tr -dc a-f0-9 | head -c 8)"
     random_veth2="veth$(head /dev/urandom | tr -dc a-f0-9 | head -c 8)"
