@@ -9,15 +9,12 @@ for i in $(seq 1 9); do
     random_veth2="veth$(head /dev/urandom | tr -dc a-f0-9 | head -c 8)"
 
     # Create virtual Ethernet pair with random names
-    echo "Creating virtual Ethernet pair $random_veth1 and $random_veth2"
     sudo ip link add $random_veth1 type veth peer name $random_veth2
 
     # Attach the first interface to the bridge
-    echo "Attaching $random_veth1 to br-5720f05dd68a bridge"
     sudo ip link set $random_veth1 master br-5720f05dd68a
 
     # Bring up both interfaces
-    echo "Bringing up $random_veth1 and $random_veth2"
     sudo ip link set $random_veth1 up
     sudo ip link set $random_veth2 up
     if [ $i -eq 4 ]; then

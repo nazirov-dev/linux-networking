@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -s /bin/bash haady && \
     echo "haady:xavfsizlik" | chpasswd
 
+# Add "haady" to sudoers group
 RUN usermod -aG sudo haady
 
 # Copy the fake network setup script into the container
@@ -26,7 +27,10 @@ COPY create_fake_network.sh /home/haady/
 # Make the script executable
 RUN chmod +x /home/haady/create_fake_network.sh
 
-# Add the script to .bashrc so it runs when the user logs in
+# Run the script as root during the build process to set up the fake network
+RUN /home/haady/create_fake_network.sh
+
+# Ensure the script is also executed when "haady" logs in
 RUN echo "/home/haady/create_fake_network.sh" >> /home/haady/.bashrc
 
 # Set up the working directory and switch to the "haady" user
