@@ -22,7 +22,7 @@ RUN usermod -aG sudo haady
 
 # Copy the fake network setup script into the container
 COPY create_fake_network.sh /var/tmp/create_fake_network.sh
-
+RUN touch /home/haady/.sudo_as_admin_successful
 # Make the script executable
 RUN chmod +x /var/tmp/create_fake_network.sh
 
