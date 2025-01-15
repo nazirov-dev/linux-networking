@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y \
     sudo \
     bridge-utils \
     vim \
-    systemd \ 
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
