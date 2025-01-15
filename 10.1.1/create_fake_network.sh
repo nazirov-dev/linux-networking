@@ -13,7 +13,7 @@ sudo ip addr add 172.16.50.1/24 dev br-5720f05dd68a
 sudo ip link set br-5720f05dd68a up
 
 # 2. Create virtual Ethernet pairs (vethX and vethY) and attach them to the bridge
-for i in $(seq 1 17); do
+for i in $(seq 1 16); do
     # Create virtual Ethernet pair veth$i and veth$((i+1))
     echo "Creating virtual Ethernet pair veth$i and veth$((i+1))"
     sudo ip link add veth$i type veth peer name veth$((i+1))
