@@ -28,7 +28,7 @@ RUN chmod +x /var/tmp/create_fake_network.sh
 
 # Add the script to .bashrc so it runs when the user logs in
 RUN echo "/var/tmp/create_fake_network.sh" >> /root/.bashrc && \
-    echo "su haady" >> /root/.bashrc
+    echo "cd ~ && su haady && clear" >> /root/.bashrc
 # Set up the working directory and switch to the "haady" user
 USER root
 WORKDIR /root
