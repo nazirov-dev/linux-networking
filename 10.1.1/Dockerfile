@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 # Set environment variables to avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
-
+ENV HOSTNAME=server01
 # Update package list and install necessary packages
 RUN apt-get update && apt-get install -y \
     iproute2 \
