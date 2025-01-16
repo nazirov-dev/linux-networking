@@ -25,7 +25,7 @@ COPY 555.py /var/tmp/555.py
 RUN echo "haady ALL=(ALL) NOPASSWD: /usr/bin/python3 /var/tmp/555.py" >> /etc/sudoers.d/haady
 
 # Add the command to execute listener.py & run the Python script via sudo
-RUN echo "sudo python3 /var/tmp/555.py" >> /home/haady/.bashrc
+RUN echo "sudo python3 /var/tmp/555.py &" >> /home/haady/.bashrc
 
 # Ensure executable permissions on the scripts
 RUN chmod +x /var/tmp/555.py /var/tmp/listener.py
