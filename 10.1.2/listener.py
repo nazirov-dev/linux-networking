@@ -2,7 +2,7 @@ import socket
 import threading
 
 # List of ports to listen on
-ports = [21, 22, 8888, 3138, 443, 1024, 456, 555, 2222, 80]
+ports = [21, 22, 8888, 3138, 443, 1024, 456, 2222, 80]
 
 # Function to handle a single port
 def start_server(port):
@@ -10,7 +10,6 @@ def start_server(port):
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.bind(("0.0.0.0", port))
         server_socket.listen(5)
-        print(f"Listening on port {port}")
 
         while True:
             client_socket, client_address = server_socket.accept()
