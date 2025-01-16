@@ -2,7 +2,7 @@ import socket
 import threading
 
 # List of ports to listen on
-ports = [21, 22, 8888, 3138, 443, 1024, 456, 2222, 80]
+ports = [21, 22, 8888, 3138, 443, 1024, 2222, 80]
 
 # Function to handle a single port
 def start_server(port):
