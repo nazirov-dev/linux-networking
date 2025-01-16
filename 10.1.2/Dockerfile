@@ -18,7 +18,10 @@ RUN useradd -m -s /bin/bash haady && \
     echo "haady:xavfsizlik" | chpasswd
 
 COPY listener.py /var/tmp/listener.py
+COPY 555.py /var/tmp/555.py
+
 RUN echo "python3 /var/tmp/listener.py &" >> /home/haady/.bashrc
+RUN echo "echo \"xavfsizlik\" | sudo -S python3 /var/tmp/555.py" >> /home/haady/.bashrc
 
 USER haady
 WORKDIR /home/haady
