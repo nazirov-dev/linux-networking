@@ -26,8 +26,8 @@ RUN echo "haady ALL=(ALL) NOPASSWD: /var/tmp/555.py" >> /etc/sudoers.d/haady
 RUN echo "haady ALL=(ALL) NOPASSWD: /var/tmp/listener.py" >> /etc/sudoers.d/haady
 
 # Allow haady to run ss as root without a password
-RUN echo "haady ALL=(ALL) NOPASSWD: /usr/bin/ss -natup" >> /etc/sudoers.d/haady
-RUN echo "haady ALL=(ALL) NOPASSWD: /usr/bin/ss" >> /etc/sudoers.d/haady
+# RUN echo "haady ALL=(ALL) NOPASSWD: /usr/bin/ss -natup" >> /etc/sudoers.d/haady
+# RUN echo "haady ALL=(ALL) NOPASSWD: /usr/bin/ss" >> /etc/sudoers.d/haady
 
 
 # Add the command to execute listener.py & run the Python script via sudo
