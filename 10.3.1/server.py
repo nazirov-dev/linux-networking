@@ -32,9 +32,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             pass
 
 def run_server():
-    server_address = ('', 8000)
+    server_address = ('0.0.0.0', 80)
     httpd = HTTPServer(server_address, RequestHandler)
-    print("Running server on port 8000...")
+    print("Running server on port 80...")
     httpd.serve_forever()
 
 if __name__ == "__main__":
