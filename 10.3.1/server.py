@@ -23,10 +23,13 @@ class RequestHandler(BaseHTTPRequestHandler):
             response_message = 'Error checking IP address'
 
         # Send response
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
-        self.end_headers()
-        self.wfile.write(response_message.encode())
+        try:
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            self.wfile.write(response_message.encode())
+        except BrokenPipeError:
+            pass
 
 if __name__ == '__main__':
     server_address = ('0.0.0.0', 80)
