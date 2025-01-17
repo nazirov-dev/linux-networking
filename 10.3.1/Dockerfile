@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     net-tools \
     iputils-ping \
     sudo \
+    curl \
     bridge-utils \
     vim \
     && apt-get clean \
