@@ -1,50 +1,61 @@
 import subprocess
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import time
 
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        # IP va bridge nomi
-        ip_to_check = "172.16.50.0/24"
-        bridge_name = "br-5720f05dd68a"
-        
-        # Javob xabari uchun o'zgaruvchi
-        response_message = ""
-        
-        try:
-            # `ip` komandasi orqali bridge ni tekshirish
-            result = subprocess.run(
-                ["ip", "route", "show", "dev", bridge_name],
-                capture_output=True,
-                text=True,
-                check=True
-            )
-            # Agar kerakli IP natijada bo'lsa
-            if ip_to_check in result.stdout:
-                response_message = "\nROUTE{Bu_Yo'l_Deganini_Aytyapti}\n"
-            else:
-                response_message = "\nVazifa bajarilmadi: IP topilmadi.\n"
-        except subprocess.CalledProcessError as e:
-            response_message = f'Error: {e}'
-        
-        # HTTP responseni yuborish
+        # Define the flag to return if conditions are met
+        response_message = 'ROUTE{Bu_Yo\'l_Deganini_Aytyapti}'
+        # Send response
         try:
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             self.wfile.write(response_message.encode())
         except BrokenPipeError:
-            pass  # Ulanish to'satdan uzilib qolsa, e'tiborga olinmaydi
+            pass
 
-def run_server():
-    server_address = ('172.16.50.10', 80)
-    httpd = HTTPServer(server_address, RequestHandler)
-    print("Running server on port 80...")
+def check_ip_assigned(ip_to_check, bridge_name):
+    """
+    Check if the given IP is assigned to the specified bridge interface.
+    """
     try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        print("Server to'xtatildi.")
-    finally:
-        httpd.server_close()
+        result = subprocess.run(
+            ["ip", "addr", "show", bridge_name],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return ip_to_check in result.stdout
+    except subprocess.CalledProcessError:
+        return False
+
+def run_server(ip_address, port):
+    """
+    Run the HTTP server.
+    """
+    server_address = (ip_address, port)
+    httpd = HTTPServer(server_address, RequestHandler)
+    print(f"Server is listening on {ip_address}:{port}...")
+    httpd.serve_forever()
+
+def main():
+    # Define the bridge interface and target IP
+    target_ip = "172.16.50.10"
+    bridge_name = "br-5720f05dd68a"
+
+    print("Checking if the target IP is assigned...")
+    while True:
+        if check_ip_assigned('172.16.50.0', bridge_name):
+            print(f"IP {target_ip} is assigned. Starting the server...")
+            try:
+                run_server(target_ip, 80)
+            except Exception as e:
+                print(f"Server error: {e}")
+            break
+        else:
+            print(f"IP {target_ip} is not yet assigned. Retrying in 1 seconds...")
+            time.sleep(1)
 
 if __name__ == "__main__":
-    run_server()
+    main()
