@@ -29,7 +29,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(response_message.encode())
 
 if __name__ == '__main__':
-    server_address = ('192.168.10.67', 80)
+    server_address = ('0.0.0.0', 80)
     httpd = HTTPServer(server_address, RequestHandler)
     print('Starting server on port 80...')
     httpd.serve_forever()
