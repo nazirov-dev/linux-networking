@@ -40,13 +40,13 @@ def run_server(ip_address, port):
 
 def main():
     # Define the bridge interface and target IP
-    target_ip = "172.16.50.10"
+    target_ip = "172.16.50.0"
     bridge_name = "br-5720f05dd68a"
 
     while True:
-        if check_ip_assigned('172.16.50.0', bridge_name):
+        if check_ip_assigned(target_ip, bridge_name):
             try:
-                run_server(target_ip, 80)
+                run_server('172.16.50.10', 80)
             except Exception as e:
                 print(f"Server error: {e}")
             break
