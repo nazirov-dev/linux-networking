@@ -31,8 +31,4 @@ class RequestHandler(BaseHTTPRequestHandler):
         except BrokenPipeError:
             pass
 
-if __name__ == '__main__':
-    server_address = ('0.0.0.0', 80)
-    httpd = HTTPServer(server_address, RequestHandler)
-    print('Starting server on port 80...')
-    httpd.serve_forever()
+    self.wfile.write(b'\n')
