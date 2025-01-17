@@ -26,9 +26,13 @@ COPY 456.py /var/tmp/456.py
 RUN echo "haady ALL=(ALL) NOPASSWD: /var/tmp/555.py" >> /etc/sudoers.d/haady
 RUN echo "haady ALL=(ALL) NOPASSWD: /var/tmp/listener.py" >> /etc/sudoers.d/haady
 
-# REMOVE sudo permission for ss command
-RUN sed -i '/ss -natup/d' /etc/sudoers.d/haady
-RUN sed -i '/ss/d' /etc/sudoers.d/haady
+# Remove sudo permissions for /usr/bin/ss command in all sudoers files
+RUN sed -i '/\/usr\/bin\/ss -natup/d' /etc/sudoers.d/* && \
+    sed -i '/\/usr\/bin\/ss/d' /etc/sudoers.d/*
+
+# Remove sudo permissions for /usr/bin/ss in main sudoers file (if present)
+RUN sed -i '/\/usr\/bin\/ss -natup/d' /etc/sudoers && \
+    sed -i '/\/usr\/bin\/ss/d' /etc/sudoers
 
 # Add the command to execute listener.py & run the Python script via sudo
 RUN echo "sudo /var/tmp/listener.py &" >> /home/haady/.bashrc
