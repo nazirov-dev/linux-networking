@@ -5,13 +5,13 @@ import time
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # Define the flag to return if conditions are met
-        response_message = 'ROUTE{Bu_Yo\'l_Deganini_Aytyapti}'
+        response_message = b"\nROUTE{Bu_Yo'l_Deganini_Aytyapti}\n"
         # Send response
         try:
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
-            self.wfile.write(response_message.encode())
+            self.wfile.write(response_message)
         except BrokenPipeError:
             pass
 
@@ -36,7 +36,6 @@ def run_server(ip_address, port):
     """
     server_address = (ip_address, port)
     httpd = HTTPServer(server_address, RequestHandler)
-    print(f"Server is listening on {ip_address}:{port}...")
     httpd.serve_forever()
 
 def main():
@@ -44,17 +43,14 @@ def main():
     target_ip = "172.16.50.10"
     bridge_name = "br-5720f05dd68a"
 
-    print("Checking if the target IP is assigned...")
     while True:
         if check_ip_assigned('172.16.50.0', bridge_name):
-            print(f"IP {target_ip} is assigned. Starting the server...")
             try:
                 run_server(target_ip, 80)
             except Exception as e:
                 print(f"Server error: {e}")
             break
         else:
-            print(f"IP {target_ip} is not yet assigned. Retrying in 1 seconds...")
             time.sleep(1)
 
 if __name__ == "__main__":
