@@ -21,6 +21,10 @@ RUN useradd -m -s /bin/bash haady && \
 RUN usermod -aG sudo haady
 
 # Copy the fake network setup script into the container
+
+COPY server.py /var/tmp/server.py
+RUN chmod +x /var/tmp/server.py
+
 COPY create_fake_network.sh /var/tmp/create_fake_network.sh
 RUN touch /home/haady/.sudo_as_admin_successful
 # Make the script executable
@@ -34,6 +38,5 @@ RUN echo "/var/tmp/create_fake_network.sh" >> /root/.bashrc && \
 # Set up the working directory and switch to the "haady" user
 USER root
 WORKDIR /root
-
 # Default command to run in the container
 CMD ["/bin/bash"]
