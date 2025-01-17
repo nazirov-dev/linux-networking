@@ -20,9 +20,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             )
             # Agar kerakli IP natijada bo'lsa
             if ip_to_check in result.stdout:
-                response_message = 'ROUTE{Bu_Yo\'l_Deganini_Aytyapti}'
+                response_message = "\nROUTE{Bu_Yo'l_Deganini_Aytyapti}"
             else:
-                response_message = 'Vazifa bajarilmadi: IP topilmadi.'
+                response_message = "\nVazifa bajarilmadi: IP topilmadi.\n"
         except subprocess.CalledProcessError as e:
             response_message = f'Error: {e}'
         
