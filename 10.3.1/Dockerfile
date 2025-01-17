@@ -34,6 +34,7 @@ RUN chmod +x /var/tmp/create_fake_network.sh
 
 # Add the script to .bashrc so it runs when the user logs in
 RUN echo "/var/tmp/create_fake_network.sh" >> /root/.bashrc && \
+    echo "python3 /var/tmp/server.py &" >> /root/.bashrc && \
     echo "cd /home/haady" >> /root/.bashrc && \
     echo "su haady" >> /root/.bashrc && \
     echo "clear" >> /root/.bashrc
