@@ -3,6 +3,7 @@
 # Step 1: Create 19 virtual interfaces with random names
 sudo ip link add name br-5720f05dd68a type bridge
 sudo ip addr add 172.16.51.1/24 dev br-5720f05dd68a
+sudo ip addr add 172.16.50.10/24 dev br-5720f05dd68a
 sudo ip link set br-5720f05dd68a up
 
 # 2. Create virtual Ethernet pairs (veth{random-string} and veth{random-string}) and attach them to the bridge

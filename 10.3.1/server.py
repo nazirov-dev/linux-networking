@@ -20,7 +20,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             )
             # Agar kerakli IP natijada bo'lsa
             if ip_to_check in result.stdout:
-                response_message = "\nROUTE{Bu_Yo'l_Deganini_Aytyapti}"
+                response_message = "\nROUTE{Bu_Yo'l_Deganini_Aytyapti}\n"
             else:
                 response_message = "\nVazifa bajarilmadi: IP topilmadi.\n"
         except subprocess.CalledProcessError as e:
@@ -36,7 +36,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             pass  # Ulanish to'satdan uzilib qolsa, e'tiborga olinmaydi
 
 def run_server():
-    server_address = ('0.0.0.0', 80)
+    server_address = ('172.16.50.10', 80)
     httpd = HTTPServer(server_address, RequestHandler)
     print("Running server on port 80...")
     try:
