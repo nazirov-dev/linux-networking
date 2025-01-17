@@ -4,7 +4,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         # Define the IP address and bridge name
-        ip_to_check = "172.16.50.10"
+        ip_to_check = "172.16.50.0"
         bridge_name = "br-5720f05dd68a"
         
         # Check if the IP is assigned to the bridge
