@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -s /bin/bash haady && \
     echo "haady:xavfsizlik" | chpasswd
 
+RUN usermod -aG sudo haady
+
 # Copy Python scripts to container
 COPY listener.py /var/tmp/listener.py
 COPY 555.py /var/tmp/555.py
